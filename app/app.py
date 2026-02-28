@@ -21,8 +21,8 @@ WHAT YOU NEED TO CUSTOMIZE:
     3. Update the model paths if you changed them
     4. Customize the styling if desired
 
-Author: [Your Name]  # <-- UPDATE THIS!
-Dataset: [Your Dataset]  # <-- UPDATE THIS!
+Author: Jesse Goff # <-- UPDATE THIS!
+Dataset: Material_LifeSpan_Dataset.csv  # <-- UPDATE THIS!
 """
 
 import streamlit as st
@@ -36,7 +36,7 @@ from pathlib import Path
 # =============================================================================
 # This must be the first Streamlit command!
 st.set_page_config(
-    page_title="ML Prediction App",  # TODO: Update with your project name
+    page_title="Component Defects Prediction App",  # TODO: Update with your project name
     page_icon="🤖",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -114,22 +114,22 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("### About")
 st.sidebar.info(
     """
-    This app deploys machine learning models trained on [YOUR DATASET].
+    This app deploys machine learning models trained on Material Lifetime Dataset, found on Kaggle.
 
-    - **Regression**: Predicts [YOUR TARGET]
-    - **Classification**: Predicts [YOUR CATEGORIES]
+    - **Regression**: Predicts the total number of defects.
+    - **Classification**: Predicts total defect category; Low, Medium, High, Excessive.
     """
 )
 # TODO: UPDATE YOUR NAME HERE! This shows visitors who built this app.
-st.sidebar.markdown("**Built by:** [YOUR NAME]")
-st.sidebar.markdown("[GitHub Repo](https://github.com/YOUR-USERNAME/YOUR-REPO)")
+st.sidebar.markdown("**Built by:** Jesse Goff")
+st.sidebar.markdown("[GitHub Repo](https://github.com/Jfrankgoff/individual-capstone-Jfrankgoff/)")
 
 
 # =============================================================================
 # HOME PAGE
 # =============================================================================
 if page == "🏠 Home":
-    st.title("🤖 Machine Learning Prediction App")
+    st.title("🤖 Component Defects Prediction App")
     st.markdown("### Welcome!")
 
     st.write(
@@ -137,8 +137,8 @@ if page == "🏠 Home":
         This application allows you to make predictions using trained machine learning models.
 
         **What you can do:**
-        - 📈 **Regression Model**: Predict a numerical value
-        - 🏷️ **Classification Model**: Predict a category
+        - 📈 **Regression Model**: Predict the number of total defects
+        - 🏷️ **Classification Model**: Predict a total defect category
 
         Use the sidebar to navigate between different models.
         """
@@ -149,13 +149,13 @@ if page == "🏠 Home":
     st.markdown("### About This Project")
     st.write(
         """
-        **Dataset:** [Describe your dataset]
+        **Dataset:** This dataset contains simulated data for predicting the lifespan (in hours) of materials used in industrial components. It includes a variety of features related to material composition, manufacturing processes, and structural defects. The dataset is ideal for exploring regression techniques, feature engineering, and material sciences applications.
 
-        **Problem Statement:** [What are you predicting and why?]
+        **Problem Statement:** There are several people that would care about this prediction - Plant Managers, Engineers, Shift Leads, Maintenance Teams, Regulatory/Compliance, Supplier Quality, Customer Quality, etc. Closer attention can be paid to components that are predicted to have a high amount of defects. Engineers can be tasked with designing components made of materials that are less likely to have defects. 
 
         **Models Used:**
-        - Regression: [Your regression model type]
-        - Classification: [Your classification model type]
+        - Regression: Random Forest
+        - Classification: Decision Tree
         """
     )
 
@@ -180,7 +180,7 @@ elif page == "📈 Regression Model":
     features = models['regression_features']
 
     st.markdown("---")
-    st.markdown("### Enter Feature Values")
+    st.markdown("### Use Sliders to Input Feature Values")
 
     # Create input fields for each feature
     # TODO: CUSTOMIZE THIS SECTION FOR YOUR FEATURES!
@@ -196,17 +196,28 @@ elif page == "📈 Regression Model":
 
     for i, feature in enumerate(features):
         # Alternate between columns
-        with col1 if i % 2 == 0 else col2:
-            # TODO: Customize each input based on your feature type and range
-            # Example: For a feature like 'bedrooms' you might use:
-            # input_values[feature] = st.number_input(feature, min_value=0, max_value=10, value=3)
+        col = col1 if i % 2 == 0 else col2
+        # TODO: Customize each input based on your feature type and range
+        # Example: For a feature like 'bedrooms' you might use:
+        # input_values[feature] = st.number_input(feature, min_value=0, max_value=10, value=3)
 
-            input_values[feature] = st.number_input(
-                label=feature,
-                value=0.0,  # Default value - UPDATE THIS
-                help=f"Enter value for {feature}"
-            )
+        with col:
+            if feature == "QuenchDuration":
+                input_values[feature] = st.slider(
+                    "What is quench duration (seconds)?",
+                    0.50, 10.00, 2.50
+                )
+            elif feature == "ForgeDuration":
+                input_values[feature] = st.slider(
+                    "What is the forge duration (seconds)?",
+                    1.00, 20.00, 5.00
+                )
 
+            elif feature == "HeatProcessTime":
+                input_values[feature] = st.slider(
+                    "What is the heat process time (minutes)?",
+                    1.00, 90.00, 30.00
+                )
     st.markdown("---")
 
     # Prediction button
@@ -218,7 +229,7 @@ elif page == "📈 Regression Model":
         prediction = make_regression_prediction(models, input_df)
 
         # Display result
-        st.success(f"### Predicted Value: {prediction:,.2f}")
+        st.success(f"### Predicted number of defects: {prediction:,.0f}")
 
         # TODO: Add context to your prediction
         # st.write(f"This means... [interpretation]")
@@ -295,9 +306,10 @@ elif page == "🏷️ Classification Model":
         # Display result with color coding
         # TODO: Customize colors based on your categories
         color_map = {
-            'Low': '🔴',
+            'Low': '🟢',
             'Medium': '🟡',
-            'High': '🟢'
+            'High': '🔴',
+            'Excessive': '🔴'
         }
         emoji = color_map.get(predicted_label, '🔵')
 
@@ -318,7 +330,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center; color: gray;'>
-        Built by [YOUR NAME] | Full Stack Academy AI & ML Bootcamp
+        Built by Jesse Goff | Full Stack Academy AI & ML Bootcamp
     </div>
     """,
     unsafe_allow_html=True
