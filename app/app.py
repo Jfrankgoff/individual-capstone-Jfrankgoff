@@ -114,7 +114,7 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("### About")
 st.sidebar.info(
     """
-    This app deploys machine learning models trained on Material Lifetime Dataset, found on Kaggle.
+    This app deploys machine learning models trained on the Material Lifespan Prediction Dataset, found on [Kaggle](https://www.kaggle.com/datasets/aounraza/material-lifespan-prediction-dataset).
 
     - **Regression**: Predicts the total number of defects.
     - **Classification**: Predicts total defect category; Low, Medium, High, Excessive.
@@ -149,10 +149,12 @@ if page == "🏠 Home":
     st.markdown("### About This Project")
     st.write(
         """
-        **Dataset:** This dataset contains simulated data for predicting the lifespan (in hours) of materials used in industrial components. It includes a variety of features related to material composition, manufacturing processes, and structural defects. The dataset is ideal for exploring regression techniques, feature engineering, and material sciences applications.
+        **Dataset:** 
+        The dataset used for this app contains simulated data for predicting the lifespan (in hours) of materials used in industrial components. It includes a variety of features related to material composition, manufacturing processes, and structural defects. The dataset is ideal for exploring regression techniques, feature engineering, and material sciences applications.
 
-        **Problem Statement:** There are several people that would care about this prediction - Plant Managers, Engineers, Shift Leads, Maintenance Teams, Regulatory/Compliance, Supplier Quality, Customer Quality, etc. Closer attention can be paid to components that are predicted to have a high amount of defects. Engineers can be tasked with designing components made of materials that are less likely to have defects. 
-
+        **Problem Statement:** 
+        Manufacturing defects increase cost, disrupt production schedules, and create downstream quality risk. To support more proactive decision-making, this project delivers two predictive models within an interactive application. Each model operates independently, allowing users to evaluate either predicted defect volume or predicted defect classification depending on their needs. Together, these tools provide data-driven insight that helps engineering and operations teams identify risk early, refine process settings, and reduce defects before they occur.
+        
         **Models Used:**
         - Regression: Random Forest
         - Classification: Decision Tree
@@ -205,18 +207,22 @@ elif page == "📈 Regression Model":
             if feature == "QuenchDuration":
                 input_values[feature] = st.slider(
                     "What is quench duration (seconds)?",
-                    0.50, 10.00, 2.50
+                    0.50, 10.00, 2.50,
+                    help='Quench duration is the time it takes for a material to cool from a high temperature to a lower temperature in a quenching medium (e.g., oil, water, or gas) to achieve desired hardness or microstructure'
                 )
             elif feature == "ForgeDuration":
                 input_values[feature] = st.slider(
                     "What is the forge duration (seconds)?",
-                    1.00, 20.00, 5.00
+                    1.00, 20.00, 5.00,
+                    help='Forge duration is the total time required to complete the forging process'
                 )
 
             elif feature == "HeatProcessTime":
                 input_values[feature] = st.slider(
                     "What is the heat process time (minutes)?",
-                    1.00, 90.00, 30.00
+                    1.00, 90.00, 30.00,
+                    help='Heat processing time is the duration materials are exposed to elevated temperatures to alter their physical or chemical properties'
+                
                 )
     st.markdown("---")
 
@@ -229,10 +235,10 @@ elif page == "📈 Regression Model":
         prediction = make_regression_prediction(models, input_df)
 
         # Display result
-        st.success(f"### Predicted number of defects: {prediction:,.0f}")
+        st.success(f"### Predicted value: {prediction:,.0f}")
 
         # TODO: Add context to your prediction
-        # st.write(f"This means... [interpretation]")
+        st.write(f'The random forest model predicts {prediction:,.0f} defects for this component')
 
         # Show input summary
         with st.expander("View Input Summary"):
@@ -257,7 +263,11 @@ elif page == "🏷️ Classification Model":
     class_labels = models['label_encoder'].classes_
 
     # Show the possible categories
-    st.info(f"**Possible Categories:** {', '.join(class_labels)}")
+    label_order = ['Low', 'Medium', 'High', 'Excessive']
+
+    ordered_labels = [label for label in label_order if label in class_labels]
+
+    st.info(f"**Possible Categories:** {', '.join(ordered_labels)}")
 
     # Show binning info if available
     if models['binning_info']:
@@ -284,14 +294,33 @@ elif page == "🏷️ Classification Model":
     input_values = {}
 
     for i, feature in enumerate(features):
-        with col1 if i % 2 == 0 else col2:
-            # TODO: Customize each input based on your feature type and range
-            input_values[feature] = st.number_input(
-                label=feature,
-                value=0.0,
-                key=f"class_{feature}",  # Unique key for classification inputs
-                help=f"Enter value for {feature}"
-            )
+        # Alternate between columns
+        col = col1 if i % 2 == 0 else col2
+        # TODO: Customize each input based on your feature type and range
+        # Example: For a feature like 'bedrooms' you might use:
+        # input_values[feature] = st.number_input(feature, min_value=0, max_value=10, value=3)
+
+        with col:
+            if feature == "QuenchDuration":
+                input_values[feature] = st.slider(
+                    "What is quench duration (seconds)?",
+                    0.50, 10.00, 2.50,
+                    help='Quench duration is the time it takes for a material to cool from a high temperature to a lower temperature in a quenching medium (e.g., oil, water, or gas) to achieve desired hardness or microstructure'
+                )
+            elif feature == "ForgeDuration":
+                input_values[feature] = st.slider(
+                    "What is the forge duration (seconds)?",
+                    1.00, 20.00, 5.00,
+                    help='Forge duration is the total time required to complete the forging process'
+                )
+
+            elif feature == "HeatProcessTime":
+                input_values[feature] = st.slider(
+                    "What is the heat process time (minutes)?",
+                    1.00, 90.00, 30.00,
+                    help='Heat processing time is the duration materials are exposed to elevated temperatures to alter their physical or chemical properties'
+                
+                )
 
     st.markdown("---")
 
@@ -313,10 +342,18 @@ elif page == "🏷️ Classification Model":
         }
         emoji = color_map.get(predicted_label, '🔵')
 
-        st.success(f"### Predicted Category: {emoji} {predicted_label}")
+        st.success(f"### Predicted Defect Category: {emoji} {predicted_label}")
 
         # TODO: Add interpretation
         # st.write(f"This means... [interpretation]")
+        if predicted_label == 'Low':
+            st.write(f'The decision tree model predicts less than 8 defects for this component')
+        elif predicted_label == 'Medium':
+            st.write(f'The decision tree model predicts between 8 and 19 defects for this component')
+        elif predicted_label == 'High':
+            st.write(f'The decision tree model predicts between 19 and 27 defects for this component')
+        else:
+            st.write(f'The decision tree model predicts more than 27 defects for this component')
 
         # Show input summary
         with st.expander("View Input Summary"):
