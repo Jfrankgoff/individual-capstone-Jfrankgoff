@@ -126,31 +126,31 @@ your-capstone-project/
 
 Complete the first sections of `notebooks/01_problem_statement_and_eda.ipynb`:
 
-- [ ] **Problem Statement**: What are you trying to predict? Why does it matter?
-- [ ] **Dataset Description**: What is your data? Where did it come from?
-- [ ] **Target Variable**: Clearly identify your numerical target column
-- [ ] **Initial EDA**: Load data, check shape, data types, first look at distributions
+- [X] **Problem Statement**: What are you trying to predict? Why does it matter?
+- [X] **Dataset Description**: What is your data? Where did it come from?
+- [X] **Target Variable**: Clearly identify your numerical target column
+- [X] **Initial EDA**: Load data, check shape, data types, first look at distributions
 
 ### Checkpoint 2 (Due: Feb 8)
 
 Complete the remaining sections of `notebooks/01_problem_statement_and_eda.ipynb`:
 
-- [ ] **Complete EDA**: Distributions, correlations, relationships with target
-- [ ] **Data Cleaning**: Handle missing values, outliers, data quality issues
-- [ ] **Feature Engineering**: Create new features, encode categoricals, scale numericals
-- [ ] **Save Processed Data**: Export clean data to `data/processed/`
+- [X] **Complete EDA**: Distributions, correlations, relationships with target
+- [X] **Data Cleaning**: Handle missing values, outliers, data quality issues
+- [X] **Feature Engineering**: Create new features, encode categoricals, scale numericals
+- [X] **Save Processed Data**: Export clean data to `data/processed/`
 
 ### Checkpoint 3 (Due: Feb 15)
 
 Complete `notebooks/02_regression_model.ipynb`:
 
-- [ ] **Baseline Model**: Build a simple model (e.g., Linear Regression)
-- [ ] **Model Iteration**: Try at least 2-3 different models or configurations
-- [ ] **Feature Importance**: Analyze which features matter most for predictions
-- [ ] **Feature Selection**: Select your top features for the final model (aim for 4-8 features)
-- [ ] **Evaluation**: Use appropriate metrics (R², RMSE, MAE)
-- [ ] **Best Model Selection**: Choose and justify your best model
-- [ ] **Save Model**: Export to `models/regression_model.pkl`
+- [X] **Baseline Model**: Build a simple model (e.g., Linear Regression)
+- [X] **Model Iteration**: Try at least 2-3 different models or configurations
+- [X] **Feature Importance**: Analyze which features matter most for predictions
+- [X] **Feature Selection**: Select your top features for the final model (aim for 4-8 features)
+- [X] **Evaluation**: Use appropriate metrics (R², RMSE, MAE)
+- [X] **Best Model Selection**: Choose and justify your best model
+- [X] **Save Model**: Export to `models/regression_model.pkl`
 
 **Also due by Feb 15:** Submit your **binning strategy** to Abishek for approval (see Classification section below)
 
@@ -158,26 +158,26 @@ Complete `notebooks/02_regression_model.ipynb`:
 
 Complete `notebooks/03_classification_model.ipynb`:
 
-- [ ] **Create Binned Target**: Convert regression target to categories
-- [ ] **Justify Binning**: Explain why your binning strategy makes sense
-- [ ] **Baseline Model**: Build a simple classifier
-- [ ] **Model Iteration**: Try at least 2-3 different models
-- [ ] **Feature Selection**: Use the same selected features from your regression model (or justify different choices)
-- [ ] **Evaluation**: Use appropriate metrics (accuracy, precision, recall, F1, confusion matrix)
-- [ ] **Best Model Selection**: Choose and justify your best model
-- [ ] **Save Model**: Export to `models/classification_model.pkl`
+- [X] **Create Binned Target**: Convert regression target to categories
+- [X] **Justify Binning**: Explain why your binning strategy makes sense
+- [X] **Baseline Model**: Build a simple classifier
+- [X] **Model Iteration**: Try at least 2-3 different models
+- [X] **Feature Selection**: Use the same selected features from your regression model (or justify different choices)
+- [X] **Evaluation**: Use appropriate metrics (accuracy, precision, recall, F1, confusion matrix)
+- [X] **Best Model Selection**: Choose and justify your best model
+- [X] **Save Model**: Export to `models/classification_model.pkl`
 
 ### Final Submission (Due: Mar 1)
 
 Deploy your Streamlit app to Streamlit Cloud:
 
-- [ ] **Working App**: App loads without errors
-- [ ] **Sensible Input Form**: Only ask users for your selected features (4-8 inputs, not 20+)
-- [ ] **Regression Predictions**: Users can input values and get a numerical prediction
-- [ ] **Classification Predictions**: Users can input values and get a category prediction
-- [ ] **Both Models Accessible**: Either on one page or separate pages/tabs
-- [ ] **Deployed URL**: App is live on Streamlit Cloud
-- [ ] **README Updated**: Your project details section is filled out (this is your portfolio!)
+- [X] **Working App**: App loads without errors
+- [X] **Sensible Input Form**: Only ask users for your selected features (4-8 inputs, not 20+)
+- [X] **Regression Predictions**: Users can input values and get a numerical prediction
+- [X] **Classification Predictions**: Users can input values and get a category prediction
+- [X] **Both Models Accessible**: Either on one page or separate pages/tabs
+- [X] **Deployed URL**: App is live on Streamlit Cloud
+- [X] **README Updated**: Your project details section is filled out (this is your portfolio!)
 
 ---
 
@@ -422,26 +422,26 @@ Reach out to Abishek on Slack if you have any questions or get stuck!
 
 > **Important:** This section is the first thing visitors see when they land on your GitHub repo. This is your portfolio—make it professional and complete! Update this before your final submission.
 
-**Student Name:** [Your Name]
+**Student Name:** Jesse Goff
 
-**Dataset:** [Dataset name and source - include a link if from Kaggle]
+**Dataset:** This app deploys machine learning models trained on the Material Lifespan Prediction Dataset, found on Kaggle. (https://www.kaggle.com/datasets/aounraza/material-lifespan-prediction-dataset)
 
-**Problem Statement:** [What are you trying to predict and why? Write 2-3 sentences explaining the value of this prediction.]
+**Problem Statement:** Manufacturing defects increase cost, disrupt production schedules, and create downstream quality risk. To support more proactive decision-making, this project delivers two predictive models within an interactive application. Each model operates independently, allowing users to evaluate either predicted defect volume or predicted defect classification depending on their needs. Together, these tools provide data-driven insight that helps engineering and operations teams identify risk early, refine process settings, and reduce defects before they occur.
 
-**Target Variable:** [Column name - e.g., "price" or "salary"]
+**Target Variable:** TotalDefects
 
-**Selected Features:** [List the 4-8 features your final model uses]
+**Selected Features:** ForgeDuration, QuenchDuration, HeatProcessTime
 
-**Best Regression Model:** [Model type and key metric - e.g., "Random Forest (R² = 0.82)"]
+**Best Regression Model:** Random Forest (R2 = 0.0007)
 
-**Best Classification Model:** [Model type and key metric - e.g., "Gradient Boosting (Accuracy = 85%)"]
+**Best Classification Model:** Decision tree (Recall 0.30)
 
-**Deployed App URL:** [Add your Streamlit Cloud URL once deployed]
+**Deployed App URL:** (https://individual-capstone-jfrankgoff-c59hv6ghysejn86qjwrghq.streamlit.app/)
 
 ### Project Highlights
 
 [Write 2-3 bullet points about interesting findings or challenges you overcame. This helps employers understand your thought process!]
 
--
--
--
+- I learned that each dataset presents its own unique challenges with varying levels of prediction liability.
+- I learned there's no universal best model to use. The model with the most accurate predictions will vary by dataset, hyper parameters, etc.
+- I learned that creating ML models is a small piece of making accurate predictions. Most of the work is front loaded in the first 3-4 steps of data science process (data wrangling, data cleansing, EDA, feature engineering, etc.). 
